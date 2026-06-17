@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>중국어 단어장 · 막판 7일</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Serif+SC:wght@600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F6F7FB; --surface:#FFFFFF; --ink:#1B1E2B; --sub:#7A8095;
+  --line:#E8EAF2; --primary:#4255FF; --primary-soft:#EDEFFF;
+  --green:#12B886; --green-soft:#E6F9F2; --red:#F0455E; --red-soft:#FEEDF0;
+  --amber:#F59F0A; --amber-soft:#FEF5E3;
+  --radius:18px; --shadow:0 1px 2px rgba(27,30,43,.04),0 8px 24px rgba(27,30,43,.06);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);color:var(--ink);font-family:'Noto Sans KR',-apple-system,sans-serif;font-size:16px;line-height:1.5}
+.wrap{max-width:560px;margin:0 auto;padding:20px 18px 60px}
+button{font-family:inherit;border:none;cursor:pointer;background:none;color:inherit}
+
+.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.brand{font-weight:900;font-size:19px;letter-spacing:-.3px}
+.brand em{font-style:normal;color:var(--primary)}
+.daychip{background:var(--primary);color:#fff;font-weight:700;font-size:13px;padding:7px 13px;border-radius:999px;box-shadow:var(--shadow)}
+.back{display:flex;align-items:center;gap:6px;color:var(--sub);font-weight:700;font-size:14px;padding:6px 0}
+.back:before{content:"←";font-size:16px}
+
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;margin-bottom:14px}
+.panel h2{font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.panel .desc{color:var(--sub);font-size:13px;margin-bottom:14px}
+.dot{width:8px;height:8px;border-radius:50%}
+.count{margin-left:auto;font-size:13px;font-weight:700;color:var(--sub)}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap}
+.btn{flex:1;min-width:88px;padding:12px 10px;border-radius:12px;font-weight:700;font-size:14px;transition:transform .08s}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:var(--primary);color:#fff}
+.btn-soft{background:var(--primary-soft);color:var(--primary)}
+.btn-ghost{background:var(--bg);color:var(--ink);border:1px solid var(--line)}
+
+/* checklist */
+.task{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid var(--line)}
+.task:last-child{border:none;padding-bottom:2px}
+.task .tno{flex:0 0 auto;width:26px;height:26px;border-radius:9px;background:var(--primary-soft);color:var(--primary);font-weight:900;font-size:13px;display:flex;align-items:center;justify-content:center}
+.task.tdone .tno{background:var(--green-soft);color:var(--green)}
+.task .tinfo{flex:1;min-width:0}
+.task .tname{font-weight:700;font-size:14.5px}
+.task .tsub{font-size:12px;color:var(--sub)}
+.task .tbtn{flex:0 0 auto;padding:9px 16px;border-radius:999px;font-weight:700;font-size:13px;background:var(--primary);color:#fff}
+.task .tbtn.soft{background:var(--primary-soft);color:var(--primary)}
+.task .tcheck{flex:0 0 auto;color:var(--green);font-weight:900;font-size:14px;background:var(--green-soft);padding:7px 13px;border-radius:999px}
+.task .tnone{flex:0 0 auto;color:var(--sub);font-size:12.5px;font-weight:700}
+
+.prog{height:8px;background:var(--bg);border-radius:99px;overflow:hidden;margin:10px 0 6px}
+.prog>div{height:100%;background:var(--primary);border-radius:99px;transition:width .4s}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px}
+.stat{background:var(--bg);border-radius:12px;padding:10px 6px;text-align:center}
+.stat b{display:block;font-size:18px;font-weight:900}
+.stat span{font-size:11px;color:var(--sub);font-weight:500}
+
+/* pass dots */
+.pdots{display:flex;gap:4px}
+.pd{width:9px;height:9px;border-radius:3px;background:var(--line)}
+.pd.on{background:var(--green)}
+
+.studyhead{display:flex;justify-content:space-between;align-items:center;color:var(--sub);font-size:13px;font-weight:700;margin-bottom:12px;gap:8px}
+.flip-scene{perspective:1200px;margin-bottom:16px}
+.flip{position:relative;width:100%;height:340px;transform-style:preserve-3d;transition:transform .45s cubic-bezier(.2,.7,.3,1);cursor:pointer}
+.flip.flipped{transform:rotateX(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--surface);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center;gap:6px}
+.face.bk{transform:rotateX(180deg)}
+.hanzi{font-family:'Noto Serif SC',serif;font-weight:600;font-size:72px;line-height:1.15;letter-spacing:.02em;word-break:keep-all}
+.hanzi.long{font-size:44px}
+.pinyin{color:var(--primary);font-size:24px;font-weight:700}
+.meaning{font-size:24px;font-weight:700;line-height:1.4}
+.hint{position:absolute;bottom:16px;color:var(--sub);font-size:12px;font-weight:500}
+.stamp{position:absolute;top:14px;right:14px;border:1.5px solid var(--red);color:var(--red);font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px;opacity:.75}
+.retag{position:absolute;top:14px;left:14px;background:var(--amber-soft);color:var(--amber);font-size:11px;font-weight:700;padding:4px 9px;border-radius:6px}
+.judge{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.judge .no{background:var(--red-soft);color:var(--red);padding:16px;border-radius:14px;font-weight:900;font-size:16px}
+.judge .ok{background:var(--green-soft);color:var(--green);padding:16px;border-radius:14px;font-weight:900;font-size:16px}
+.judge button:active{transform:scale(.97)}
+.navrow{display:grid;grid-template-columns:1fr 2fr;gap:10px}
+.navrow .btn{padding:15px}
+
+.mgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.tile{aspect-ratio:1/1.15;background:var(--surface);border:1.5px solid var(--line);border-radius:13px;display:flex;align-items:center;justify-content:center;padding:6px;font-size:13px;font-weight:600;text-align:center;word-break:keep-all;transition:all .15s;box-shadow:var(--shadow)}
+.tile.hz{font-family:'Noto Serif SC',serif;font-size:21px}
+.tile.sel{border-color:var(--primary);background:var(--primary-soft);color:var(--primary)}
+.tile.gone{opacity:0;pointer-events:none;transform:scale(.85)}
+.tile.bad{animation:shake .3s;border-color:var(--red);background:var(--red-soft)}
+@keyframes shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+
+.tools{display:flex;gap:8px;margin-bottom:12px}
+.search{flex:1;padding:11px 14px;border:1px solid var(--line);border-radius:12px;font-family:inherit;font-size:14px;background:var(--surface)}
+.search:focus{outline:2px solid var(--primary)}
+select.search{flex:0 0 auto;width:auto}
+.row{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:11px 14px;margin-bottom:7px}
+.row .rh{font-family:'Noto Serif SC',serif;font-size:21px;font-weight:600;min-width:74px}
+.row .rp{color:var(--primary);font-size:12.5px;font-weight:700}
+.row .rk{font-size:13px}
+.row .info{flex:1;min-width:0}
+.know{flex:0 0 auto;font-size:12px;font-weight:700;padding:7px 11px;border-radius:999px;background:var(--bg);color:var(--sub);border:1px solid var(--line)}
+.know.on{background:var(--green-soft);color:var(--green);border-color:transparent}
+.del{flex:0 0 auto;color:var(--red);font-size:12px;font-weight:700;padding:7px 4px}
+.custombadge{font-size:10px;font-weight:700;color:var(--amber);border:1px solid var(--amber);border-radius:5px;padding:1px 5px;margin-left:6px;vertical-align:2px}
+.wcbadge{flex:0 0 auto;background:var(--red-soft);color:var(--red);font-size:12px;font-weight:900;padding:5px 10px;border-radius:999px}
+.duetag{font-size:11px;color:var(--amber);font-weight:700}
+.row.dim{opacity:.45}
+.daylabel{font-size:12px;font-weight:700;color:var(--sub);margin:16px 0 8px;letter-spacing:.4px}
+
+.field{margin-bottom:12px}
+.field label{display:block;font-size:12.5px;font-weight:700;color:var(--sub);margin-bottom:5px}
+.field input,.field select{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:12px;font-family:inherit;font-size:15px;background:var(--surface)}
+.field input:focus{outline:2px solid var(--primary)}
+
+.result{text-align:center;padding:40px 20px}
+.result .big{font-size:42px;font-weight:900;color:var(--primary)}
+.result p{color:var(--sub);margin:8px 0 22px;font-size:14px}
+
+.setrow{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line);font-size:14px;gap:10px}
+.setrow:last-child{border:none}
+input[type=date]{font-family:inherit;border:1px solid var(--line);border-radius:9px;padding:7px 10px;background:var(--surface);font-size:14px}
+.linkbtn{color:var(--red);font-weight:700;font-size:13px}
+.plantable{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:6px}
+.plantable td{padding:7px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+.plantable td:first-child{font-weight:900;color:var(--primary);white-space:nowrap}
+@media (prefers-reduced-motion: reduce){.flip{transition:none}.tile.bad{animation:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div class="brand">中 <em>단어장</em></div>
+    <button class="daychip" id="daychip" onclick="go('settings')">Day 1</button>
+  </div>
+  <div id="app"></div>
+</div>
+
+<script>
+const BASE = [{"n": 1, "h": "你", "p": "nǐ", "k": "너, 당신", "d": 1}, {"n": 2, "h": "好", "p": "hǎo", "k": "좋다", "d": 1}, {"n": 3, "h": "老师", "p": "lǎoshī", "k": "선생님", "d": 1}, {"n": 4, "h": "叫", "p": "jiào", "k": "~라고 부르다", "d": 1}, {"n": 5, "h": "什么", "p": "shénme", "k": "무엇, 무슨", "d": 1}, {"n": 6, "h": "名字", "p": "míngzi", "k": "이름", "d": 1}, {"n": 7, "h": "我", "p": "wǒ", "k": "나", "d": 1}, {"n": 8, "h": "今年", "p": "jīnnián", "k": "올해", "d": 1}, {"n": 9, "h": "多", "p": "duō", "k": "많다, 얼마나", "d": 1}, {"n": 10, "h": "大", "p": "dà", "k": "크다, (나이가) 많다", "d": 1}, {"n": 11, "h": "您", "p": "nín", "k": "당신", "d": 1}, {"n": 12, "h": "贵姓", "p": "guìxìng", "k": "성함이 어떻게 되십니까", "d": 1}, {"n": 13, "h": "姓", "p": "xìng", "k": "성이 ~이다", "d": 1}, {"n": 14, "h": "认识", "p": "rènshi", "k": "(사람을) 알다", "d": 1}, {"n": 15, "h": "很", "p": "hěn", "k": "매우", "d": 1}, {"n": 16, "h": "高兴", "p": "gāoxìng", "k": "기쁘다", "d": 1}, {"n": 17, "h": "也", "p": "yě", "k": "~도", "d": 1}, {"n": 18, "h": "知道", "p": "zhīdào", "k": "(정보를) 알다", "d": 1}, {"n": 19, "h": "同学", "p": "tóngxué", "k": "학생", "d": 1}, {"n": 20, "h": "他 / 她", "p": "tā", "k": "그 / 그녀", "d": 1}, {"n": 21, "h": "它", "p": "tā", "k": "그것", "d": 1}, {"n": 22, "h": "几", "p": "jǐ", "k": "몇 (의문사)", "d": 1}, {"n": 23, "h": "岁", "p": "suì", "k": "~세 (10 이하)", "d": 1}, {"n": 24, "h": "年级", "p": "niánjí", "k": "학년", "d": 2}, {"n": 25, "h": "胖", "p": "pàng", "k": "뚱뚱하다", "d": 2}, {"n": 26, "h": "瘦", "p": "shòu", "k": "마르다", "d": 2}, {"n": 27, "h": "年纪", "p": "niánjì", "k": "나이", "d": 2}, {"n": 28, "h": "饿", "p": "è", "k": "배고프다", "d": 2}, {"n": 29, "h": "大家", "p": "dàjiā", "k": "모두", "d": 2}, {"n": 30, "h": "班", "p": "bān", "k": "반", "d": 2}, {"n": 31, "h": "的", "p": "de", "k": "~의", "d": 2}, {"n": 32, "h": "学生", "p": "xuésheng", "k": "학생", "d": 2}, {"n": 33, "h": "吗", "p": "ma", "k": "의문을 나타내는 어기조사", "d": 2}, {"n": 34, "h": "啊", "p": "a", "k": "의문 또는 감탄을 나타내는 어기조사", "d": 2}, {"n": 35, "h": "吧", "p": "ba", "k": "추측, 제의, 청유, 명령을 나타내는 어기조사", "d": 2}, {"n": 36, "h": "韩国", "p": "Hánguó", "k": "한국", "d": 2}, {"n": 37, "h": "人", "p": "rén", "k": "사람", "d": 2}, {"n": 38, "h": "对", "p": "duì", "k": "맞다, 옳다", "d": 2}, {"n": 39, "h": "哪", "p": "nǎ", "k": "어느", "d": 2}, {"n": 40, "h": "国", "p": "guó", "k": "나라", "d": 2}, {"n": 41, "h": "中国", "p": "Zhōngguó", "k": "중국", "d": 2}, {"n": 42, "h": "谢谢", "p": "xièxie", "k": "감사합니다", "d": 2}, {"n": 43, "h": "不客气", "p": "bú kèqi", "k": "별말씀을요", "d": 2}, {"n": 44, "h": "不用谢", "p": "bú yòng xiè", "k": "별말씀을요", "d": 2}, {"n": 45, "h": "对不起", "p": "duìbuqǐ", "k": "죄송합니다", "d": 2}, {"n": 46, "h": "没关系", "p": "méi guānxi", "k": "괜찮습니다", "d": 2}, {"n": 47, "h": "不好意思", "p": "bù hǎoyìsi", "k": "죄송합니다", "d": 3}, {"n": 48, "h": "是", "p": "shì", "k": "~이다, 맞다", "d": 3}, {"n": 49, "h": "这", "p": "zhè", "k": "이, 이것", "d": 3}, {"n": 50, "h": "个", "p": "ge", "k": "개 (수량사)", "d": 3}, {"n": 51, "h": "累", "p": "lèi", "k": "피곤하다", "d": 3}, {"n": 52, "h": "忙", "p": "máng", "k": "바쁘다", "d": 3}, {"n": 53, "h": "上课", "p": "shàngkè", "k": "수업하다", "d": 3}, {"n": 54, "h": "下课", "p": "xiàkè", "k": "수업이 끝나다", "d": 3}, {"n": 55, "h": "位", "p": "wèi", "k": "분 (사람을 세는 단위, 경어)", "d": 3}, {"n": 56, "h": "谁", "p": "shéi", "k": "누구", "d": 3}, {"n": 57, "h": "日本人", "p": "Rìběnrén", "k": "일본인", "d": 3}, {"n": 58, "h": "德国人", "p": "Déguórén", "k": "독일인", "d": 3}, {"n": 59, "h": "美国人", "p": "Měiguórén", "k": "미국인", "d": 3}, {"n": 60, "h": "妹妹", "p": "mèimei", "k": "여동생", "d": 3}, {"n": 61, "h": "爸爸", "p": "bàba", "k": "아버지", "d": 3}, {"n": 62, "h": "哥哥", "p": "gēge", "k": "형, 오빠", "d": 3}, {"n": 63, "h": "奶奶", "p": "nǎinai", "k": "할머니", "d": 3}, {"n": 64, "h": "弟弟", "p": "dìdi", "k": "남동생", "d": 3}, {"n": 65, "h": "课文", "p": "kèwén", "k": "본문", "d": 3}, {"n": 66, "h": "见到", "p": "jiàndào", "k": "만나다", "d": 3}, {"n": 67, "h": "百", "p": "bǎi", "k": "100", "d": 3}, {"n": 68, "h": "英国", "p": "Yīngguó", "k": "영국", "d": 3}, {"n": 69, "h": "法国", "p": "Fǎguó", "k": "프랑스", "d": 3}, {"n": 70, "h": "印度", "p": "Yìndù", "k": "인도", "d": 4}, {"n": 71, "h": "埃及", "p": "Āijí", "k": "이집트", "d": 4}, {"n": 72, "h": "巴西", "p": "Bāxī", "k": "브라질", "d": 4}, {"n": 73, "h": "越南", "p": "Yuènán", "k": "베트남", "d": 4}, {"n": 74, "h": "新加坡", "p": "Xīnjiāpō", "k": "싱가포르", "d": 4}, {"n": 75, "h": "俄罗斯", "p": "Éluósī", "k": "러시아", "d": 4}, {"n": 76, "h": "西班牙", "p": "Xībānyá", "k": "스페인", "d": 4}, {"n": 77, "h": "马来西亚", "p": "Mǎláixīyà", "k": "말레이시아", "d": 4}, {"n": 78, "h": "瑞士", "p": "Ruìshì", "k": "스위스", "d": 4}, {"n": 79, "h": "荷兰", "p": "Hélán", "k": "네덜란드", "d": 4}, {"n": 80, "h": "意大利", "p": "Yìdàlì", "k": "이탈리아", "d": 4}, {"n": 81, "h": "澳大利亚", "p": "Àodàlìyà", "k": "오스트레일리아", "d": 4}, {"n": 82, "h": "流利", "p": "liúlì", "k": "유창하다", "d": 4}, {"n": 83, "h": "发财", "p": "fācái", "k": "돈을 벌다", "d": 4}, {"n": 84, "h": "死", "p": "sǐ", "k": "죽다", "d": 4}, {"n": 85, "h": "生气", "p": "shēngqì", "k": "화내다", "d": 4}, {"n": 86, "h": "今天", "p": "jīntiān", "k": "오늘", "d": 4}, {"n": 87, "h": "星期", "p": "xīngqī", "k": "요일", "d": 4}, {"n": 88, "h": "有", "p": "yǒu", "k": "있다", "d": 4}, {"n": 89, "h": "考试", "p": "kǎoshì", "k": "시험", "d": 4}, {"n": 90, "h": "汉语", "p": "Hànyǔ", "k": "중국어", "d": 4}, {"n": 91, "h": "点", "p": "diǎn", "k": "시", "d": 4}, {"n": 92, "h": "现在", "p": "xiànzài", "k": "지금", "d": 4}, {"n": 93, "h": "差", "p": "chà", "k": "부족하다", "d": 5}, {"n": 94, "h": "快", "p": "kuài", "k": "빨리", "d": 5}, {"n": 95, "h": "去", "p": "qù", "k": "가다", "d": 5}, {"n": 96, "h": "教室", "p": "jiàoshì", "k": "교실", "d": 5}, {"n": 97, "h": "和", "p": "hé", "k": "~와", "d": 5}, {"n": 98, "h": "没有", "p": "méiyǒu", "k": "없다", "d": 5}, {"n": 99, "h": "朋友", "p": "péngyou", "k": "친구", "d": 5}, {"n": 100, "h": "时间", "p": "shíjiān", "k": "시간", "d": 5}, {"n": 101, "h": "分", "p": "fēn", "k": "분", "d": 5}, {"n": 102, "h": "秒", "p": "miǎo", "k": "초", "d": 5}, {"n": 103, "h": "刻", "p": "kè", "k": "15분", "d": 5}, {"n": 104, "h": "半", "p": "bàn", "k": "반", "d": 5}, {"n": 105, "h": "前年", "p": "qiánnián", "k": "재작년", "d": 5}, {"n": 106, "h": "去年", "p": "qùnián", "k": "작년", "d": 5}, {"n": 107, "h": "今年", "p": "jīnnián", "k": "올해", "d": 5}, {"n": 108, "h": "明年", "p": "míngnián", "k": "내년", "d": 5}, {"n": 109, "h": "后年", "p": "hòunián", "k": "내후년", "d": 5}, {"n": 110, "h": "前天", "p": "qiántiān", "k": "그저께", "d": 5}, {"n": 111, "h": "昨天", "p": "zuótiān", "k": "어제", "d": 5}, {"n": 112, "h": "今天", "p": "jīntiān", "k": "오늘", "d": 5}, {"n": 113, "h": "明天", "p": "míngtiān", "k": "내일", "d": 5}, {"n": 114, "h": "后天", "p": "hòutiān", "k": "모레", "d": 5}, {"n": 115, "h": "月", "p": "yuè", "k": "월", "d": 5}, {"n": 116, "h": "号", "p": "hào", "k": "일", "d": 6}, {"n": 117, "h": "下", "p": "xià", "k": "다음", "d": 6}, {"n": 118, "h": "怎么样", "p": "zěnmeyàng", "k": "어때요", "d": 6}, {"n": 119, "h": "一起", "p": "yìqǐ", "k": "함께, 같이", "d": 6}, {"n": 120, "h": "玩", "p": "wán", "k": "놀다", "d": 6}, {"n": 121, "h": "可以", "p": "kěyǐ", "k": "좋다", "d": 6}, {"n": 122, "h": "时候", "p": "shíhou", "k": "~때, 무렵", "d": 6}, {"n": 123, "h": "在", "p": "zài", "k": "~에서", "d": 6}, {"n": 124, "h": "哪儿", "p": "nǎr", "k": "어디", "d": 6}, {"n": 125, "h": "下午", "p": "xiàwǔ", "k": "오후", "d": 6}, {"n": 126, "h": "学校", "p": "xuéxiào", "k": "학교", "d": 6}, {"n": 127, "h": "门口", "p": "ménkǒu", "k": "입구", "d": 6}, {"n": 128, "h": "见", "p": "jiàn", "k": "보다, 만나다", "d": 6}, {"n": 129, "h": "听", "p": "tīng", "k": "듣다", "d": 6}, {"n": 130, "h": "说", "p": "shuō", "k": "말하다", "d": 6}, {"n": 131, "h": "读", "p": "dú", "k": "읽다", "d": 6}, {"n": 132, "h": "写", "p": "xiě", "k": "쓰다", "d": 6}, {"n": 133, "h": "看", "p": "kàn", "k": "보다", "d": 6}, {"n": 134, "h": "休息", "p": "xiūxi", "k": "휴식하다", "d": 6}, {"n": 135, "h": "家", "p": "jiā", "k": "집", "d": 6}, {"n": 136, "h": "早上", "p": "zǎoshang", "k": "아침", "d": 6}, {"n": 137, "h": "上午", "p": "shàngwǔ", "k": "오전", "d": 6}, {"n": 138, "h": "中午", "p": "zhōngwǔ", "k": "점심", "d": 6}, {"n": 139, "h": "晚上", "p": "wǎnshang", "k": "저녁", "d": 7}, {"n": 140, "h": "银行", "p": "yínháng", "k": "은행", "d": 7}, {"n": 141, "h": "医院", "p": "yīyuàn", "k": "병원", "d": 7}, {"n": 142, "h": "邮局", "p": "yóujú", "k": "우체국", "d": 7}, {"n": 143, "h": "图书馆", "p": "túshūguǎn", "k": "도서관", "d": 7}, {"n": 144, "h": "每天", "p": "měitiān", "k": "매일", "d": 7}, {"n": 145, "h": "起床", "p": "qǐchuáng", "k": "일어나다", "d": 7}, {"n": 146, "h": "吃", "p": "chī", "k": "먹다", "d": 7}, {"n": 147, "h": "早饭", "p": "zǎofàn", "k": "아침밥", "d": 7}, {"n": 148, "h": "大概", "p": "dàgài", "k": "아마도, 대개", "d": 7}, {"n": 149, "h": "差不多", "p": "chàbuduō", "k": "거의", "d": 7}, {"n": 150, "h": "晚饭", "p": "wǎnfàn", "k": "저녁밥", "d": 7}, {"n": 151, "h": "春节", "p": "Chūnjié", "k": "춘절", "d": 7}, {"n": 152, "h": "元宵节", "p": "Yuánxiāojié", "k": "위안샤오제", "d": 7}, {"n": 153, "h": "端午节", "p": "Duānwǔjié", "k": "뚜안우제", "d": 7}, {"n": 154, "h": "中秋节", "p": "Zhōngqiūjié", "k": "중추절", "d": 7}, {"n": 155, "h": "喂", "p": "wèi", "k": "여보세요", "d": 7}, {"n": 156, "h": "在", "p": "zài", "k": "~하고 있다", "d": 7}, {"n": 157, "h": "干", "p": "gàn", "k": "하다", "d": 7}, {"n": 158, "h": "刚才", "p": "gāngcái", "k": "방금", "d": 7}, {"n": 159, "h": "给", "p": "gěi", "k": "~에게", "d": 7}, {"n": 160, "h": "发", "p": "fā", "k": "보내다", "d": 7}, {"n": 161, "h": "短信", "p": "duǎnxìn", "k": "문자메시지", "d": 7}, {"n": 162, "h": "了", "p": "le", "k": "동작의 완료나 변화", "d": 8}, {"n": 163, "h": "还", "p": "hái", "k": "여전히, 아직", "d": 8}, {"n": 164, "h": "没", "p": "méi", "k": "경험, 행위의 부정", "d": 8}, {"n": 165, "h": "呢", "p": "ne", "k": "의문, 진행", "d": 8}, {"n": 166, "h": "生日", "p": "shēngrì", "k": "생일", "d": 8}, {"n": 167, "h": "来", "p": "lái", "k": "오다", "d": 8}, {"n": 168, "h": "真的", "p": "zhēn de", "k": "정말", "d": 8}, {"n": 169, "h": "买", "p": "mǎi", "k": "사다", "d": 8}, {"n": 170, "h": "蛋糕", "p": "dàngāo", "k": "케이크", "d": 8}, {"n": 171, "h": "不用", "p": "búyòng", "k": "~할 필요 없다", "d": 8}, {"n": 172, "h": "就", "p": "jiù", "k": "곧", "d": 8}, {"n": 173, "h": "行", "p": "xíng", "k": "좋다", "d": 8}, {"n": 174, "h": "打", "p": "dǎ", "k": "걸다", "d": 8}, {"n": 175, "h": "电话", "p": "diànhuà", "k": "전화", "d": 8}, {"n": 176, "h": "正在", "p": "zhèngzài", "k": "마침 ~하고 있다", "d": 8}, {"n": 177, "h": "要", "p": "yào", "k": "~하려고 하다", "d": 8}, {"n": 178, "h": "书", "p": "shū", "k": "책", "d": 8}, {"n": 179, "h": "午饭", "p": "wǔfàn", "k": "점심밥", "d": 8}, {"n": 180, "h": "本", "p": "běn", "k": "권", "d": 8}, {"n": 181, "h": "做", "p": "zuò", "k": "하다", "d": 8}, {"n": 182, "h": "回来", "p": "huílái", "k": "돌아오다", "d": 8}, {"n": 183, "h": "常常", "p": "chángcháng", "k": "종종, 항상", "d": 8}, {"n": 184, "h": "用", "p": "yòng", "k": "쓰다", "d": 8}, {"n": 185, "h": "聊天", "p": "liáotiān", "k": "채팅하다", "d": 9}, {"n": 186, "h": "电影", "p": "diànyǐng", "k": "영화", "d": 9}, {"n": 187, "h": "进", "p": "jìn", "k": "(안으로) 들다", "d": 9}, {"n": 188, "h": "坐", "p": "zuò", "k": "앉다", "d": 9}, {"n": 189, "h": "飞机", "p": "fēijī", "k": "비행기", "d": 9}, {"n": 190, "h": "散步", "p": "sànbù", "k": "산책하다", "d": 9}, {"n": 191, "h": "欢迎", "p": "huānyíng", "k": "환영하다", "d": 9}, {"n": 192, "h": "请", "p": "qǐng", "k": "청하다", "d": 9}, {"n": 193, "h": "快乐", "p": "kuàilè", "k": "즐겁다", "d": 9}, {"n": 194, "h": "礼物", "p": "lǐwù", "k": "선물", "d": 9}, {"n": 195, "h": "太", "p": "tài", "k": "매우, 너무", "d": 9}, {"n": 196, "h": "客气", "p": "kèqi", "k": "예의바르다", "d": 9}, {"n": 197, "h": "谢谢", "p": "xièxie", "k": "감사하다", "d": 9}, {"n": 198, "h": "打开", "p": "dǎkāi", "k": "열다", "d": 9}, {"n": 199, "h": "哇", "p": "wā", "k": "놀람을 나타내는 어기조사", "d": 9}, {"n": 200, "h": "熊猫", "p": "xióngmāo", "k": "판다", "d": 9}, {"n": 201, "h": "娃娃", "p": "wáwa", "k": "인형", "d": 9}, {"n": 202, "h": "眼睛", "p": "yǎnjing", "k": "눈", "d": 9}, {"n": 203, "h": "胖", "p": "pàng", "k": "뚱뚱하다", "d": 9}, {"n": 204, "h": "身体", "p": "shēntǐ", "k": "몸", "d": 9}, {"n": 205, "h": "可爱", "p": "kě'ài", "k": "귀엽다", "d": 9}, {"n": 206, "h": "喜欢", "p": "xǐhuan", "k": "좋아하다", "d": 9}, {"n": 207, "h": "饭菜", "p": "fàncài", "k": "밥과 반찬", "d": 9}, {"n": 208, "h": "已经", "p": "yǐjīng", "k": "이미", "d": 9}, {"n": 209, "h": "准备", "p": "zhǔnbèi", "k": "준비하다", "d": 9}, {"n": 210, "h": "长", "p": "zhǎng", "k": "자라다, 생기다", "d": 9}, {"n": 211, "h": "说", "p": "shuō", "k": "말하다", "d": 9}, {"n": 212, "h": "遍", "p": "biàn", "k": "번, 회 (횟수를 세는 단위)", "d": 9}, {"n": 213, "h": "新年", "p": "xīnnián", "k": "신년", "d": 9}, {"n": 214, "h": "圣诞节", "p": "Shèngdànjié", "k": "성탄절", "d": 9}, {"n": 215, "h": "唱歌", "p": "chànggē", "k": "노래 부르다", "d": 9}, {"n": 216, "h": "厉害", "p": "lìhai", "k": "대단하다", "d": 9}, {"n": 217, "h": "想", "p": "xiǎng", "k": "하고 싶다, 그립다", "d": 9}, {"n": 218, "h": "约", "p": "yuē", "k": "약속하다", "d": 9}, {"n": 219, "h": "到", "p": "dào", "k": "목적지에 도달하다", "d": 9}, {"n": 220, "h": "完", "p": "wán", "k": "완료, 완성, 마치다", "d": 9}, {"n": 221, "h": "光", "p": "guāng", "k": "싹 다 ~해버리다", "d": 9}, {"n": 222, "h": "教师节", "p": "Jiàoshījié", "k": "스승의 날", "d": 9}, {"n": 223, "h": "节日", "p": "jiérì", "k": "기념일, 명절", "d": 9}, {"n": 224, "h": "情人节", "p": "Qíngrénjié", "k": "발렌타인데이", "d": 9}, {"n": 225, "h": "电视", "p": "diànshì", "k": "텔레비전", "d": 9}, {"n": 226, "h": "睡", "p": "shuì", "k": "자다", "d": 9}, {"n": 227, "h": "午觉", "p": "wǔjiào", "k": "낮잠", "d": 9}, {"n": 228, "h": "英语", "p": "Yīngyǔ", "k": "영어", "d": 9}, {"n": 229, "h": "运动", "p": "yùndòng", "k": "운동(하다)", "d": 9}, {"n": 230, "h": "干", "p": "gàn", "k": "하다", "d": 9}, {"n": 231, "h": "干", "p": "gān", "k": "건조하다", "d": 10}, {"n": 232, "h": "刚才", "p": "gāngcái", "k": "방금", "d": 10}, {"n": 233, "h": "作业", "p": "zuòyè", "k": "숙제", "d": 10}, {"n": 234, "h": "接", "p": "jiē", "k": "받다", "d": 10}, {"n": 235, "h": "开始", "p": "kāishǐ", "k": "시작하다", "d": 10}, {"n": 236, "h": "请问", "p": "qǐngwèn", "k": "말씀 좀 여쭙겠습니다", "d": 10}, {"n": 237, "h": "附近", "p": "fùjìn", "k": "근처", "d": 10}, {"n": 238, "h": "中国银行", "p": "Zhōngguó Yínháng", "k": "중국은행", "d": 10}, {"n": 239, "h": "路人", "p": "lùrén", "k": "행인", "d": 10}, {"n": 240, "h": "建设银行", "p": "Jiànshè Yínháng", "k": "건설은행", "d": 10}, {"n": 241, "h": "近", "p": "jìn", "k": "가깝다", "d": 10}, {"n": 242, "h": "怎么", "p": "zěnme", "k": "어떻게", "d": 10}, {"n": 243, "h": "走", "p": "zǒu", "k": "걷다", "d": 10}, {"n": 244, "h": "一直", "p": "yìzhí", "k": "똑바로, 줄곧", "d": 10}, {"n": 245, "h": "往", "p": "wǎng", "k": "~쪽으로", "d": 10}, {"n": 246, "h": "前", "p": "qián", "k": "앞", "d": 10}, {"n": 247, "h": "到", "p": "dào", "k": "도착하다", "d": 10}, {"n": 248, "h": "十字路口", "p": "shízì lùkǒu", "k": "사거리", "d": 10}, {"n": 249, "h": "右", "p": "yòu", "k": "오른쪽", "d": 10}, {"n": 250, "h": "拐", "p": "guǎi", "k": "방향을 바꾸다", "d": 10}, {"n": 251, "h": "然后", "p": "ránhòu", "k": "그런 후에", "d": 10}, {"n": 252, "h": "以后", "p": "yǐhòu", "k": "이후", "d": 10}, {"n": 253, "h": "再", "p": "zài", "k": "다시", "d": 10}, {"n": 254, "h": "米", "p": "mǐ", "k": "미터", "d": 10}, {"n": 255, "h": "最", "p": "zuì", "k": "가장", "d": 10}, {"n": 256, "h": "高", "p": "gāo", "k": "높다", "d": 10}, {"n": 257, "h": "大楼", "p": "dàlóu", "k": "빌딩", "d": 10}, {"n": 258, "h": "都", "p": "dōu", "k": "모두", "d": 10}, {"n": 259, "h": "除了~以外", "p": "chúle ~ yǐwài", "k": "~을(를) 제외하고", "d": 10}, {"n": 260, "h": "会", "p": "huì", "k": "~할 줄 안다", "d": 10}, {"n": 261, "h": "餐厅", "p": "cāntīng", "k": "식당", "d": 10}, {"n": 262, "h": "办", "p": "bàn", "k": "(일을) 하다", "d": 10}, {"n": 263, "h": "才", "p": "cái", "k": "비로소", "d": 10}, {"n": 264, "h": "哭", "p": "kū", "k": "울다", "d": 10}, {"n": 265, "h": "里", "p": "lǐ", "k": "안", "d": 10}, {"n": 266, "h": "边", "p": "biān", "k": "쪽, 측", "d": 10}, {"n": 267, "h": "面", "p": "miàn", "k": "쪽, 측", "d": 10}, {"n": 268, "h": "左", "p": "zuǒ", "k": "왼쪽", "d": 10}, {"n": 269, "h": "右边", "p": "yòubiān", "k": "오른쪽", "d": 10}, {"n": 270, "h": "历史", "p": "lìshǐ", "k": "역사", "d": 10}, {"n": 271, "h": "博物馆", "p": "bówùguǎn", "k": "박물관", "d": 10}, {"n": 272, "h": "天安门", "p": "Tiān'ānmén", "k": "천안문", "d": 10}, {"n": 273, "h": "离", "p": "lí", "k": "~로부터", "d": 10}, {"n": 274, "h": "远", "p": "yuǎn", "k": "멀다", "d": 10}, {"n": 275, "h": "地铁", "p": "dìtiě", "k": "지하철", "d": 10}, {"n": 276, "h": "还是", "p": "háishi", "k": "또는, 아니면, ~하는 편이 좋다", "d": 10}, {"n": 277, "h": "公交车", "p": "gōngjiāochē", "k": "버스", "d": 11}, {"n": 278, "h": "比较", "p": "bǐjiào", "k": "비교적", "d": 11}, {"n": 279, "h": "慢", "p": "màn", "k": "느리다", "d": 11}, {"n": 280, "h": "但是", "p": "dànshì", "k": "그러나", "d": 11}, {"n": 281, "h": "换车", "p": "huàn chē", "k": "(차를) 갈아타다", "d": 11}, {"n": 282, "h": "比", "p": "bǐ", "k": "~보다", "d": 11}, {"n": 283, "h": "一点儿", "p": "yìdiǎnr", "k": "조금", "d": 11}, {"n": 284, "h": "麻烦", "p": "máfan", "k": "귀찮다", "d": 11}, {"n": 285, "h": "方法", "p": "fāngfǎ", "k": "방법", "d": 11}, {"n": 286, "h": "最后", "p": "zuìhòu", "k": "마지막", "d": 11}, {"n": 287, "h": "决定", "p": "juédìng", "k": "결정하다", "d": 11}, {"n": 288, "h": "告诉", "p": "gàosu", "k": "알려주다", "d": 11}, {"n": 289, "h": "北京", "p": "Běijīng", "k": "베이징", "d": 11}, {"n": 290, "h": "上海", "p": "Shànghǎi", "k": "상하이", "d": 11}, {"n": 291, "h": "面条", "p": "miàntiáo", "k": "국수", "d": 11}, {"n": 292, "h": "饺子", "p": "jiǎozi", "k": "만두", "d": 11}, {"n": 293, "h": "跳舞", "p": "tiàowǔ", "k": "춤 추다", "d": 11}, {"n": 294, "h": "以前", "p": "yǐqián", "k": "이전", "d": 11}, {"n": 295, "h": "天", "p": "tiān", "k": "날, 날씨", "d": 11}, {"n": 296, "h": "凉", "p": "liáng", "k": "차갑다", "d": 11}, {"n": 297, "h": "穿", "p": "chuān", "k": "입다", "d": 11}, {"n": 298, "h": "二号线", "p": "èrhào xiàn", "k": "2호선", "d": 11}, {"n": 299, "h": "四号线", "p": "sìhào xiàn", "k": "4호선", "d": 11}, {"n": 300, "h": "明洞", "p": "Míng Dòng", "k": "명동", "d": 11}, {"n": 301, "h": "农业银行", "p": "Nóngyè Yínháng", "k": "농업은행", "d": 11}, {"n": 302, "h": "工商银行", "p": "Gōngshāng Yínháng", "k": "공상은행", "d": 11}, {"n": 303, "h": "火车", "p": "huǒchē", "k": "기차", "d": 11}, {"n": 304, "h": "钱", "p": "qián", "k": "돈", "d": 11}, {"n": 305, "h": "周末", "p": "zhōumò", "k": "주말", "d": 11}, {"n": 306, "h": "演唱会", "p": "yǎnchànghuì", "k": "콘서트", "d": 11}, {"n": 307, "h": "电影院", "p": "diànyǐngyuàn", "k": "영화관", "d": 11}, {"n": 308, "h": "骑", "p": "qí", "k": "타다", "d": 11}, {"n": 309, "h": "自行车", "p": "zìxíngchē", "k": "자전거", "d": 11}, {"n": 310, "h": "最近", "p": "zuìjìn", "k": "최근", "d": 11}, {"n": 311, "h": "辆", "p": "liàng", "k": "대 (차량, 자전거 등을 세는 단위)", "d": 11}, {"n": 312, "h": "草莓", "p": "cǎoméi", "k": "딸기", "d": 11}, {"n": 313, "h": "西红柿", "p": "xīhóngshì", "k": "토마토", "d": 11}, {"n": 314, "h": "甜", "p": "tián", "k": "달다", "d": 11}, {"n": 315, "h": "钢笔", "p": "gāngbǐ", "k": "만년필", "d": 11}, {"n": 316, "h": "铅笔", "p": "qiānbǐ", "k": "연필", "d": 11}, {"n": 317, "h": "贵", "p": "guì", "k": "비싸다", "d": 11}, {"n": 318, "h": "过", "p": "guò", "k": "지나다", "d": 11}, {"n": 319, "h": "书店", "p": "shūdiàn", "k": "서점", "d": 11}, {"n": 320, "h": "超市", "p": "chāoshì", "k": "슈퍼마켓", "d": 11}, {"n": 321, "h": "入口", "p": "rùkǒu", "k": "입구", "d": 11}, {"n": 322, "h": "继续", "p": "jìxù", "k": "계속하다", "d": 11}, {"n": 323, "h": "路", "p": "lù", "k": "길", "d": 12}, {"n": 324, "h": "公园", "p": "gōngyuán", "k": "공원", "d": 12}, {"n": 325, "h": "打的", "p": "dǎdī", "k": "택시를 타다", "d": 12}, {"n": 326, "h": "首尔站", "p": "Shǒu'ěr Zhàn", "k": "서울역", "d": 12}, {"n": 327, "h": "上学", "p": "shàngxué", "k": "등교하다", "d": 12}, {"n": 328, "h": "从", "p": "cóng", "k": "~부터", "d": 12}, {"n": 329, "h": "为什么", "p": "wèishénme", "k": "왜", "d": 12}, {"n": 330, "h": "们", "p": "men", "k": "~들 (복수형 접미사)", "d": 12}, {"n": 331, "h": "晚安", "p": "wǎn'ān", "k": "안녕히 주무세요", "d": 12}, {"n": 332, "h": "大小", "p": "dàxiǎo", "k": "크기", "d": 12}, {"n": 333, "h": "真", "p": "zhēn", "k": "정말", "d": 12}, {"n": 334, "h": "再见", "p": "zàijiàn", "k": "잘 가", "d": 12}, {"n": 335, "h": "介绍", "p": "jièshào", "k": "소개하다", "d": 12}, {"n": 336, "h": "一下", "p": "yíxià", "k": "한번 ~해보다", "d": 12}, {"n": 337, "h": "那", "p": "nà", "k": "저, 그것, 그렇다면", "d": 12}, {"n": 338, "h": "新", "p": "xīn", "k": "새로운", "d": 12}, {"n": 339, "h": "好听", "p": "hǎotīng", "k": "듣기 좋다", "d": 12}, {"n": 340, "h": "好吃", "p": "hǎochī", "k": "맛있다", "d": 12}, {"n": 341, "h": "好看", "p": "hǎokàn", "k": "보기 좋다, 재미있다", "d": 12}, {"n": 342, "h": "聪明", "p": "cōngming", "k": "똑똑하다", "d": 12}, {"n": 343, "h": "高中", "p": "gāozhōng", "k": "고등학교", "d": 12}, {"n": 344, "h": "棒", "p": "bàng", "k": "훌륭하다", "d": 12}, {"n": 345, "h": "帮助", "p": "bāngzhù", "k": "돕다, 도움", "d": 12}, {"n": 346, "h": "加油", "p": "jiāyóu", "k": "화이팅", "d": 12}, {"n": 347, "h": "不", "p": "bù", "k": "아니다, ~않다", "d": 12}, {"n": 348, "h": "不敢当", "p": "bùgǎndāng", "k": "별말씀을요", "d": 12}, {"n": 349, "h": "没事儿", "p": "méishìr", "k": "괜찮다", "d": 12}, {"n": 350, "h": "哪里", "p": "nǎli", "k": "어디, 뭘요", "d": 12}, {"n": 351, "h": "迟到", "p": "chídào", "k": "지각하다", "d": 12}, {"n": 352, "h": "后", "p": "hòu", "k": "뒤, 후", "d": 12}, {"n": 353, "h": "参观", "p": "cānguān", "k": "참관하다, 견학하다", "d": 12}, {"n": 354, "h": "美术馆", "p": "měishùguǎn", "k": "미술관", "d": 12}, {"n": 355, "h": "咱们", "p": "zánmen", "k": "우리 (함께 포함)", "d": 12}, {"n": 356, "h": "先", "p": "xiān", "k": "먼저", "d": 12}, {"n": 357, "h": "儿童节", "p": "Értóng Jié", "k": "어린이날", "d": 12}, {"n": 358, "h": "星期六", "p": "xīngqīliù", "k": "토요일", "d": 12}, {"n": 359, "h": "口", "p": "kǒu", "k": "(가족 수를 세는) 명", "d": 12}, {"n": 360, "h": "一共", "p": "yígòng", "k": "모두, 합계", "d": 12}, {"n": 361, "h": "多大", "p": "duō dà", "k": "몇 살", "d": 12}, {"n": 362, "h": "上", "p": "shàng", "k": "(학교에) 다니다", "d": 12}, {"n": 363, "h": "高三", "p": "gāo sān", "k": "고등학교 3학년", "d": 12}, {"n": 364, "h": "兄弟姐妹", "p": "xiōngdì jiěmèi", "k": "형제자매", "d": 12}, {"n": 365, "h": "帅", "p": "shuài", "k": "잘생기다", "d": 12}, {"n": 366, "h": "过", "p": "guo", "k": "~한 적이 있다", "d": 12}, {"n": 367, "h": "京剧", "p": "jīngjù", "k": "경극", "d": 12}, {"n": 368, "h": "听说", "p": "tīngshuō", "k": "듣자 하니", "d": 12}, {"n": 369, "h": "有名", "p": "yǒumíng", "k": "유명하다", "d": 13}, {"n": 370, "h": "没错", "p": "méicuò", "k": "맞다", "d": 13}, {"n": 371, "h": "视频", "p": "shìpín", "k": "영상", "d": 13}, {"n": 372, "h": "有点儿", "p": "yǒudiǎnr", "k": "조금", "d": 13}, {"n": 373, "h": "一定", "p": "yídìng", "k": "반드시", "d": 13}, {"n": 374, "h": "号码", "p": "hàomǎ", "k": "번호", "d": 13}, {"n": 375, "h": "记", "p": "jì", "k": "적다, 기억하다", "d": 13}, {"n": 376, "h": "微信", "p": "wēixìn", "k": "위챗", "d": 13}, {"n": 377, "h": "当然", "p": "dāngrán", "k": "물론, 당연하다", "d": 13}, {"n": 378, "h": "联系", "p": "liánxì", "k": "연락하다", "d": 13}, {"n": 379, "h": "问", "p": "wèn", "k": "묻다", "d": 13}, {"n": 380, "h": "找", "p": "zhǎo", "k": "찾다", "d": 13}, {"n": 381, "h": "阿姨", "p": "āyí", "k": "아주머니", "d": 13}, {"n": 382, "h": "哦", "p": "o", "k": "아, 그렇구나", "d": 13}, {"n": 383, "h": "等", "p": "děng", "k": "기다리다", "d": 13}, {"n": 384, "h": "事儿", "p": "shìr", "k": "일, 용무", "d": 13}, {"n": 385, "h": "剧院", "p": "jùyuàn", "k": "극장", "d": 13}, {"n": 386, "h": "表演", "p": "biǎoyǎn", "k": "공연, 공연하다", "d": 13}, {"n": 387, "h": "早", "p": "zǎo", "k": "일찍, 이미", "d": 13}, {"n": 388, "h": "问题", "p": "wèntí", "k": "문제", "d": 13}, {"n": 389, "h": "散", "p": "sàn", "k": "헤어지다", "d": 13}, {"n": 390, "h": "篮球", "p": "lánqiú", "k": "농구", "d": 13}, {"n": 391, "h": "乒乓球", "p": "pīngpāngqiú", "k": "탁구", "d": 13}, {"n": 392, "h": "迷", "p": "mí", "k": "팬, ~에 심취하다", "d": 13}, {"n": 393, "h": "球迷", "p": "qiúmí", "k": "구기를 좋아하는 사람", "d": 13}, {"n": 394, "h": "足球", "p": "zúqiú", "k": "축구", "d": 13}, {"n": 395, "h": "棒球", "p": "bàngqiú", "k": "야구", "d": 13}, {"n": 396, "h": "排球", "p": "páiqiú", "k": "배구", "d": 13}, {"n": 397, "h": "非常", "p": "fēicháng", "k": "대단히, 매우", "d": 13}, {"n": 398, "h": "受", "p": "shòu", "k": "받다", "d": 13}, {"n": 399, "h": "可是", "p": "kěshì", "k": "그러나, 하지만", "d": 13}, {"n": 400, "h": "得", "p": "de", "k": "~得+정도보어", "d": 13}, {"n": 401, "h": "正好", "p": "zhènghǎo", "k": "마침, 딱 알맞게", "d": 13}, {"n": 402, "h": "比赛", "p": "bǐsài", "k": "시합(하다)", "d": 13}, {"n": 403, "h": "参加", "p": "cānjiā", "k": "참가하다", "d": 13}, {"n": 404, "h": "太极拳", "p": "tàijíquán", "k": "태극권", "d": 13}];
+const TOTAL_DAYS = 14, LEARN_DAYS = 13;
+/* 오답 반복 간격: 7일 압축 구간에 맞춰 1·3·6일로 단축 (원래 SuperMemo의 1·7·16일 비율을 축소)
+   틀리면 SM-2 규칙대로 1일부터 다시 시작 */
+const INTERVALS = [1, 3, 6];
+
+/* ---------- safe storage ---------- */
+const mem = {};
+const store = {
+  get(k){ try { return localStorage.getItem(k); } catch(e){ return mem[k] ?? null; } },
+  set(k,v){ try { localStorage.setItem(k,v); } catch(e){ mem[k]=v; } },
+  del(k){ try { localStorage.removeItem(k); } catch(e){ delete mem[k]; } }
+};
+const loadSet = k => new Set(JSON.parse(store.get(k) || "[]"));
+const saveSet = (k,s) => store.set(k, JSON.stringify([...s]));
+const loadObj = k => JSON.parse(store.get(k) || "{}");
+const saveObj = (k,o) => store.set(k, JSON.stringify(o));
+
+let known  = loadSet("ck_known");
+let start  = store.get("ck_start");
+let custom = JSON.parse(store.get("ck_custom") || "[]");
+let pass   = loadObj("ck_pass");   // {n: bit0=시험1, bit1=시험2}
+let srs    = loadObj("ck_srs");    // {n: {s:stage, d:'YYYY-MM-DD'}}
+let wc     = loadObj("ck_wc");     // {n: 누적 오답 횟수}
+let t1done = loadSet("ck_t1");     // 시험1 완료한 Day
+let t2done = loadSet("ck_t2");
+let cdone  = loadSet("ck_card");   // 카드 훑기 완료한 Day
+
+let DATA = [], byN = {};
+function rebuild(){ DATA = BASE.concat(custom); byN = {}; DATA.forEach(w => byN[w.n] = w); }
+rebuild();
+
+/* 7일 압축 플랜 이행: 남은 오답 예정일을 새 마지막 날 안으로 당김 (한 번만 실행) */
+(function migrateCompress(){
+  if(store.get("ck_compress")) return;
+  let changed = false;
+  Object.keys(srs).forEach(n => {
+    const c = clipDue(srs[n].d);
+    if(c !== srs[n].d){ srs[n].d = c; changed = true; }
+  });
+  if(changed) saveObj("ck_srs", srs);
+  store.set("ck_compress", "1");
+})();
+
+/* 이전 버전 오답 기록 이행 */
+(function migrate(){
+  const old = store.get("ck_wrong");
+  if(old && Object.keys(srs).length === 0){
+    JSON.parse(old).forEach(n => {
+      if(byN[n]){ wc[n] = (wc[n]||0) + 1; srs[n] = { s: 0, d: addDays(todayISO(), 1) }; }
+    });
+    saveObj("ck_srs", srs); saveObj("ck_wc", wc); store.del("ck_wrong");
+  }
+})();
+
+/* ---------- date helpers ---------- */
+function todayISO(){
+  const t = new Date();
+  return t.getFullYear() + "-" + String(t.getMonth()+1).padStart(2,"0") + "-" + String(t.getDate()).padStart(2,"0");
+}
+function addDays(iso, k){
+  const d = new Date(iso + "T00:00:00");
+  d.setDate(d.getDate() + k);
+  return d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + String(d.getDate()).padStart(2,"0");
+}
+function curDay(){
+  if(!start) return 1;
+  const d = Math.floor((new Date(todayISO()+"T00:00:00") - new Date(start+"T00:00:00")) / 864e5) + 1;
+  return Math.max(1, Math.min(TOTAL_DAYS, d));
+}
+function lastDayISO(){ return start ? addDays(start, TOTAL_DAYS - 1) : null; }
+function clipDue(iso){
+  const last = lastDayISO();
+  return (last && iso > last) ? last : iso;
+}
+function dueLabel(iso){
+  const t = todayISO();
+  if(iso <= t) return "오늘";
+  const diff = Math.round((new Date(iso+"T00:00:00") - new Date(t+"T00:00:00")) / 864e5);
+  return diff === 1 ? "내일" : diff + "일 뒤";
+}
+
+/* ---------- pools ---------- */
+function dayWords(d){ return DATA.filter(w => w.d === d); }
+function dayPool(d){ return dayWords(d).filter(w => !known.has(w.n)); }
+function duePool(){
+  const t = todayISO();
+  return DATA.filter(w => !known.has(w.n) && srs[w.n] && srs[w.n].d <= t);
+}
+function allUnknown(){ return DATA.filter(w => !known.has(w.n)); }
+function topWrong(limit){
+  return DATA.filter(w => (wc[w.n]||0) >= 1 && !known.has(w.n))
+    .sort((a,b) => (wc[b.n]||0) - (wc[a.n]||0) || a.n - b.n)
+    .slice(0, limit || 9999);
+}
+function masteredCount(){
+  return allUnknown().filter(w => (pass[w.n]||0) === 3 && !srs[w.n]).length;
+}
+
+/* ---------- SRS 처리 ---------- */
+function markWrong(n){
+  wc[n] = (wc[n]||0) + 1;
+  srs[n] = { s: 0, d: clipDue(addDays(todayISO(), INTERVALS[0])) };  // 틀리면 처음(1일)부터
+  saveObj("ck_wc", wc); saveObj("ck_srs", srs);
+}
+function srsAdvance(n){
+  const e = srs[n];
+  if(!e) return;
+  const next = e.s + 1;
+  if(next >= INTERVALS.length){ delete srs[n]; }                      // 1·7·16일 모두 통과 → 졸업
+  else { srs[n] = { s: next, d: clipDue(addDays(todayISO(), INTERVALS[next])) }; }
+  saveObj("ck_srs", srs);
+}
+
+/* ---------- helpers ---------- */
+const app = document.getElementById("app");
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;");
+const shuffle = a => { a=[...a]; for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; };
+function refreshChip(){ document.getElementById("daychip").textContent = "Day " + curDay() + " · D-" + (TOTAL_DAYS - curDay() + 1); }
+function pdotsHTML(n){
+  const m = pass[n] || 0;
+  return `<span class="pdots"><span class="pd ${m&1?"on":""}" title="시험①"></span><span class="pd ${m&2?"on":""}" title="시험②"></span></span>`;
+}
+
+let view = "home", ctx = {};
+function go(v, c){ view = v; ctx = c || {}; render(); window.scrollTo(0,0); }
+function render(){
+  refreshChip();
+  if(!start && view === "home"){ renderSetup(); return; }
+  ({home:renderHome, browse:renderBrowse, test:renderTest, match:renderMatch,
+    words:renderWords, wrongtop:renderWrongTop, addword:renderAdd,
+    settings:renderSettings, result:renderResult})[view]();
+}
+
+/* ----- first run ----- */
+function renderSetup(){
+  app.innerHTML = `
+  <div class="panel" style="text-align:center;padding:36px 24px">
+    <div class="hanzi" style="font-size:54px;margin-bottom:10px">加油!</div>
+    <h2 style="justify-content:center;font-size:18px">7일 압축 플랜 시작</h2>
+    <p class="desc" style="margin:8px 0 20px">${DATA.length}개 단어 · 매일 시험① 한자→뜻·병음, 시험② 뜻→한자·병음.<br>틀린 단어는 1일 → 3일 → 6일 간격으로 다시 시험을 봐야 졸업합니다.</p>
+    <input type="date" id="startdate" value="${todayISO()}">
+    <div class="btnrow" style="margin-top:18px">
+      <button class="btn btn-primary" onclick="setStart()">시작하기</button>
+    </div>
+    <p class="desc" style="margin-top:16px;margin-bottom:0">먼저 '전체 단어'에서 이미 아는 단어를<br>체크해 두면 매일 분량이 줄어듭니다.</p>
+  </div>`;
+}
+function setStart(){
+  start = document.getElementById("startdate").value;
+  store.set("ck_start", start);
+  go("home");
+}
+
+/* ----- home ----- */
+function renderHome(){
+  const d = curDay();
+  const tp = dayPool(d), due = duePool(), au = allUnknown();
+  const finals = d > LEARN_DAYS;
+  const dw = dayWords(d);
+  const mastered = masteredCount();
+  const pct = au.length ? Math.round(mastered / au.length * 100) : 0;
+  const tw = topWrong(5);
+  const key = String(d);
+
+  function taskRow(no, name, sub, doneFlag, btnLabel, action, none){
+    return `
+    <div class="task ${doneFlag?"tdone":""}">
+      <span class="tno">${doneFlag?"✓":no}</span>
+      <div class="tinfo"><div class="tname">${name}</div><div class="tsub">${sub}</div></div>
+      ${doneFlag ? `<span class="tcheck">완료</span>`
+        : none ? `<span class="tnone">${none}</span>`
+        : `<button class="tbtn ${no>1?"":""}" onclick="${action}">시작</button>`}
+    </div>`;
+  }
+
+  let planPanel;
+  if(!finals){
+    planPanel = `
+    <div class="panel">
+      <h2><span class="dot" style="background:var(--primary)"></span>오늘 할 일 · Day ${d}<span class="count">새 단어 ${tp.length}개</span></h2>
+      <p class="desc">Day ${d} 분량${dw.length?` (${dw[0].n}~${dw.at(-1).n}번)`:""}${dw.length-tp.length?` · 아는 단어 ${dw.length-tp.length}개 제외`:""}</p>
+      ${taskRow(1, "새 단어 카드 훑기", "처음 보는 단어를 카드로 한 바퀴", cdone.has(key), "시작", "startBrowse(dayPool(curDay()),true)", tp.length?null:"오늘 분량 없음")}
+      ${taskRow(2, "시험① 한자 → 뜻·병음", "한자를 보고 뜻과 병음 떠올리기", t1done.has(key), "시작", "startTest(dayPool(curDay()),1,'Day "+d+" 시험①',{mark:'t1'})", tp.length?null:"오늘 분량 없음")}
+      ${taskRow(3, "시험② 뜻 → 한자·병음", "뜻을 보고 한자를 종이에 써보기", t2done.has(key), "시작", "startTest(dayPool(curDay()),2,'Day "+d+" 시험②',{mark:'t2'})", tp.length?null:"오늘 분량 없음")}
+      ${taskRow(4, "오답 시험", due.length?`오늘 예정 ${due.length}개 (1·3·6일 주기)`:"오늘 예정된 오답이 없습니다", false, "시작", "startTest(duePool(),0,'오답 시험',{srs:true})", due.length?null:"예정 없음")}
+      <div class="btnrow" style="margin-top:14px">
+        <button class="btn btn-ghost" onclick="startMatch(dayPool(curDay()))">+ 매칭 게임 (선택)</button>
+      </div>
+    </div>`;
+  } else {
+    planPanel = `
+    <div class="panel">
+      <h2><span class="dot" style="background:var(--amber)"></span>마지막 날 · 총복습</h2>
+      <p class="desc">7일 압축 플랜의 마지막 날입니다. 전체를 양방향으로 한 번씩 점검하고 남은 오답을 정리하세요.</p>
+      ${taskRow(1, "전체 시험① 한자 → 뜻·병음", "전체 " + au.length + "개 대상", false, "시작", "startTest(allUnknown(),1,'총복습 시험①',{})", null)}
+      ${taskRow(2, "전체 시험② 뜻 → 한자·병음", "뜻을 보고 한자를 종이에 써보기", false, "시작", "startTest(allUnknown(),2,'총복습 시험②',{})", null)}
+      ${taskRow(3, "오답 시험", due.length?("오늘 예정 " + due.length + "개"):"오늘 예정된 오답이 없습니다", false, "시작", "startTest(duePool(),0,'오답 시험',{srs:true})", due.length?null:"예정 없음")}
+    </div>`;
+  }
+
+  app.innerHTML = `
+  ${planPanel}
+  <div class="panel">
+    <h2><span class="dot" style="background:var(--red)"></span>자주 틀리는 단어<span class="count">누적 ${topWrong().length}개</span></h2>
+    <p class="desc">누적 오답 횟수가 많은 순서. 시험에서 틀릴 때마다 +1 됩니다.</p>
+    ${tw.length ? tw.map(w => `
+      <div class="task" style="padding:9px 0">
+        <span class="rh" style="font-family:'Noto Serif SC',serif;font-size:20px;min-width:64px">${esc(w.h)}</span>
+        <div class="tinfo"><div class="tsub" style="font-size:12.5px"><span style="color:var(--primary);font-weight:700">${esc(w.p)}</span> · ${esc(w.k)}</div></div>
+        <span class="wcbadge">×${wc[w.n]}</span>
+      </div>`).join("") + `
+    <div class="btnrow" style="margin-top:12px">
+      <button class="btn btn-soft" onclick="startTest(topWrong(),0,'최다 오답 집중 시험',{})">집중 시험</button>
+      <button class="btn btn-ghost" onclick="go('wrongtop')">전체 보기</button>
+    </div>` : `<p class="desc" style="margin:0;color:var(--green)">아직 없습니다. 시험을 보면 여기에 쌓입니다.</p>`}
+  </div>
+  <div class="panel">
+    <h2>완전 암기 진행률<span class="count">${mastered} / ${au.length}</span></h2>
+    <div class="prog"><div style="width:${pct}%"></div></div>
+    <p class="desc" style="margin:0">시험①·② 통과 + 오답 주기 졸업까지 마친 단어 ${pct}%</p>
+    <div class="stats">
+      <div class="stat"><b>${DATA.length}</b><span>전체</span></div>
+      <div class="stat"><b>${known.size}</b><span>아는 단어</span></div>
+      <div class="stat"><b>${mastered}</b><span>완전 암기</span></div>
+      <div class="stat"><b>${Object.keys(srs).filter(n=>!known.has(+n)).length}</b><span>오답 진행중</span></div>
+    </div>
+  </div>
+  <div class="btnrow">
+    <button class="btn btn-ghost" onclick="go('words')">전체 단어 · 선별</button>
+    <button class="btn btn-ghost" onclick="go('addword')">+ 단어 추가</button>
+  </div>`;
+}
+
+/* ----- 카드 훑기 (학습용, 채점 없음) ----- */
+let bq = [], bi = 0, bflip = false, bMarkDay = null;
+function startBrowse(pool, isDaily){
+  if(!pool.length) return;
+  bq = pool; bi = 0; bflip = false;
+  bMarkDay = isDaily ? String(curDay()) : null;
+  go("browse");
+}
+function renderBrowse(){
+  const w = bq[bi];
+  app.innerHTML = `
+  <button class="back" onclick="go('home')">홈</button>
+  <div class="studyhead"><span>카드 훑기</span><span>${bi+1} / ${bq.length}</span></div>
+  <div class="flip-scene"><div class="flip ${bflip?"flipped":""}" onclick="bflip=!bflip;render()">
+    <div class="face">
+      <div class="stamp">Day ${w.d}</div>
+      <div class="hanzi ${w.h.length>3?"long":""}">${esc(w.h)}</div>
+      <div class="hint">탭해서 뒤집기</div>
+    </div>
+    <div class="face bk">
+      <div class="pinyin">${esc(w.p)}</div>
+      <div class="meaning">${esc(w.k)}</div>
+      <div class="hint">탭해서 앞면</div>
+    </div>
+  </div></div>
+  <div class="navrow">
+    <button class="btn btn-ghost" onclick="if(bi>0){bi--;bflip=false;render()}">이전</button>
+    <button class="btn btn-primary" onclick="browseNext()">${bi===bq.length-1?"끝내기":"다음"}</button>
+  </div>`;
+}
+function browseNext(){
+  if(bi === bq.length - 1){
+    if(bMarkDay){ cdone.add(bMarkDay); saveSet("ck_card", cdone); }
+    go("result", { msg: "카드 훑기 완료!", sub: "이제 시험①부터 시작하세요." });
+  } else { bi++; bflip = false; render(); }
+}
+
+/* ----- 시험 (플래시카드 셀프 채점) -----
+   dir 1: 한자 앞 → 뜻·병음 뒤 / dir 2: 뜻 앞 → 한자·병음 뒤 / dir 0: 카드마다 무작위 */
+let tq = [], ti = 0, tflip = false, tOpts = {}, tFirstTotal = 0, tFirstCorrect = 0;
+function startTest(pool, dir, title, opts){
+  if(!pool.length){ alert("시험 볼 단어가 없습니다."); return; }
+  tq = shuffle(pool).map(w => ({ w, dir: dir === 0 ? (Math.random() < .5 ? 1 : 2) : dir, first: true }));
+  ti = 0; tflip = false; tOpts = opts || {};
+  tFirstTotal = tq.length; tFirstCorrect = 0;
+  go("test", { title });
+}
+function renderTest(){
+  if(ti >= tq.length){
+    if(tOpts.mark){
+      (tOpts.mark === "t1" ? t1done : t2done).add(String(curDay()));
+      saveSet("ck_t1", t1done); saveSet("ck_t2", t2done);
+    }
+    go("result", {
+      msg: tFirstCorrect + " / " + tFirstTotal,
+      sub: ctx.title + " · 틀린 단어는 1일 → 3일 → 6일 주기로 오답 시험에 다시 나옵니다."
+    });
+    return;
+  }
+  const item = tq[ti], w = item.w;
+  const front = item.dir === 1
+    ? `<div class="hanzi ${w.h.length>3?"long":""}">${esc(w.h)}</div>`
+    : `<div class="meaning" style="font-size:28px">${esc(w.k)}</div>`;
+  const back = item.dir === 1
+    ? `<div class="pinyin">${esc(w.p)}</div><div class="meaning">${esc(w.k)}</div>`
+    : `<div class="hanzi ${w.h.length>3?"long":""}" style="font-size:58px">${esc(w.h)}</div><div class="pinyin" style="font-size:20px">${esc(w.p)}</div>`;
+  const srsTag = tOpts.srs && srs[w.n] ? `<div class="retag">오답 ${srs[w.n].s+1}차 검토</div>` : (!item.first ? `<div class="retag">다시 확인</div>` : "");
+  app.innerHTML = `
+  <button class="back" onclick="go('home')">홈</button>
+  <div class="studyhead">
+    <span>${esc(ctx.title)} (${item.dir===1?"한자→뜻·병음":"뜻→한자·병음"})</span>
+    <span>${ti+1} / ${tq.length}</span>
+  </div>
+  <div class="flip-scene"><div class="flip ${tflip?"flipped":""}" onclick="tflip=!tflip;render()">
+    <div class="face">
+      ${srsTag}
+      <div class="stamp">Day ${w.d}</div>
+      ${front}
+      <div class="hint">${item.dir===1?"뜻과 병음을 떠올린 뒤":"한자를 종이에 써 본 뒤"} 탭해서 확인</div>
+    </div>
+    <div class="face bk">
+      ${back}
+      <div class="hint">탭해서 앞면</div>
+    </div>
+  </div></div>
+  ${tflip ? `
+  <div class="judge">
+    <button class="no" onclick="tjudge(false)">틀렸어요</button>
+    <button class="ok" onclick="tjudge(true)">맞혔어요</button>
+  </div>` : `
+  <div class="navrow" style="grid-template-columns:1fr">
+    <button class="btn btn-primary" style="padding:16px" onclick="tflip=true;render()">정답 확인</button>
+  </div>`}`;
+}
+function tjudge(ok){
+  const item = tq[ti], n = item.w.n;
+  if(item.first){
+    if(ok){
+      tFirstCorrect++;
+      if(tOpts.srs && srs[n]) srsAdvance(n);                      // 오답 시험 통과 → 다음 간격으로
+      if(tOpts.mark) { pass[n] = (pass[n]||0) | (tOpts.mark === "t1" ? 1 : 2); saveObj("ck_pass", pass); }
+      if(!tOpts.srs && !tOpts.mark){                              // 총복습/집중 시험도 통과 기록
+        pass[n] = (pass[n]||0) | (item.dir === 1 ? 1 : 2); saveObj("ck_pass", pass);
+      }
+    } else {
+      markWrong(n);                                               // 틀리면 1일부터 다시
+      tq.push({ w: item.w, dir: item.dir, first: false });        // 세션 안에서 맞힐 때까지 반복
+    }
+  } else {
+    if(!ok) tq.push({ w: item.w, dir: item.dir, first: false });
+  }
+  ti++; tflip = false; render();
+}
+
+/* ----- matching ----- */
+let tiles = [], sel = null, remain = 0;
+function startMatch(pool){
+  if(pool.length < 4){ alert("매칭에는 단어가 4개 이상 필요합니다."); return; }
+  const pairs = shuffle(pool).slice(0, Math.min(8, pool.length));
+  tiles = shuffle([
+    ...pairs.map(w => ({ id: w.n, t: w.h, hz: true })),
+    ...pairs.map(w => ({ id: w.n, t: w.k, hz: false }))
+  ]);
+  sel = null; remain = pairs.length;
+  go("match");
+}
+function renderMatch(){
+  app.innerHTML = `
+  <button class="back" onclick="go('home')">홈</button>
+  <div class="studyhead"><span>매칭 게임</span><span>${remain}쌍 남음</span></div>
+  <div class="mgrid">${tiles.map((t,i)=>`
+    <button class="tile ${t.hz?"hz":""} ${t.gone?"gone":""} ${sel===i?"sel":""}" data-i="${i}" onclick="tapTile(${i})">${esc(t.t)}</button>
+  `).join("")}</div>`;
+}
+function tapTile(i){
+  const t = tiles[i];
+  if(t.gone) return;
+  if(sel === null){ sel = i; render(); return; }
+  if(sel === i){ sel = null; render(); return; }
+  const a = tiles[sel], b = t;
+  if(a.id === b.id && a.hz !== b.hz){
+    a.gone = b.gone = true; remain--; sel = null; render();
+    if(remain === 0) setTimeout(()=>go("result",{msg:"매칭 완료!",sub:"전부 짝을 맞췄습니다."}), 250);
+  } else {
+    const si = sel; sel = null; render();
+    document.querySelectorAll(`[data-i="${si}"],[data-i="${i}"]`).forEach(el=>el.classList.add("bad"));
+    setTimeout(render, 320);
+  }
+}
+
+/* ----- 자주 틀리는 단어 전체 ----- */
+function renderWrongTop(){
+  const list = topWrong();
+  app.innerHTML = `
+  <button class="back" onclick="go('home')">홈</button>
+  <div class="panel" style="padding:14px 16px">
+    <p class="desc" style="margin-bottom:0">누적 오답 횟수 순. 오답 주기가 남은 단어에는 다음 시험 예정일이 표시됩니다.</p>
+  </div>
+  ${list.length ? `
+  <div class="btnrow" style="margin-bottom:12px">
+    <button class="btn btn-soft" onclick="startTest(topWrong(),0,'최다 오답 집중 시험',{})">전체 집중 시험</button>
+    <button class="btn btn-ghost" onclick="startBrowse(topWrong(),false)">카드 훑기</button>
+  </div>
+  ${list.map(w => `
+  <div class="row">
+    <div class="rh">${esc(w.h)}</div>
+    <div class="info">
+      <div class="rp">${esc(w.p)}</div>
+      <div class="rk">${esc(w.k)}</div>
+      ${srs[w.n] ? `<div class="duetag">다음 오답 시험: ${dueLabel(srs[w.n].d)} (${srs[w.n].s+1}/3차)</div>` : `<div class="duetag" style="color:var(--green)">오답 주기 졸업</div>`}
+    </div>
+    <span class="wcbadge">×${wc[w.n]}</span>
+  </div>`).join("")}` : `<p class="desc" style="text-align:center;margin-top:30px">아직 틀린 단어가 없습니다.</p>`}`;
+}
+
+/* ----- word list & triage ----- */
+let filterDay = 0, query = "";
+function renderWords(){
+  const rows = DATA.filter(w =>
+    (filterDay === 0 || w.d === filterDay) &&
+    (!query || w.h.includes(query) || w.k.includes(query) || w.p.toLowerCase().includes(query.toLowerCase()))
+  );
+  let html = `
+  <button class="back" onclick="go('home')">홈</button>
+  <div class="panel" style="padding:14px 16px">
+    <p class="desc" style="margin-bottom:0">아는 단어는 '알아요'로 빼 두세요. 초록 칸 2개는 시험①·② 통과 표시입니다.</p>
+  </div>
+  <div class="tools">
+    <input class="search" placeholder="한자, 병음, 뜻 검색" value="${esc(query)}" oninput="query=this.value;render()">
+    <select class="search" onchange="filterDay=+this.value;render()">
+      <option value="0">전체</option>
+      ${Array.from({length:LEARN_DAYS},(_,i)=>`<option value="${i+1}" ${filterDay===i+1?"selected":""}>Day ${i+1}</option>`).join("")}
+    </select>
+  </div>
+  <div class="btnrow" style="margin-bottom:12px">
+    <button class="btn btn-soft" onclick="go('addword')">+ 단어 추가</button>
+  </div>`;
+  let lastDay = -1;
+  rows.forEach(w => {
+    if(w.d !== lastDay && filterDay === 0 && !query){ html += `<div class="daylabel">DAY ${w.d}</div>`; lastDay = w.d; }
+    const on = known.has(w.n);
+    const isCustom = w.n >= 1000;
+    html += `
+    <div class="row ${on?"dim":""}">
+      <div class="rh">${esc(w.h)}${isCustom?'<span class="custombadge">추가</span>':""}</div>
+      <div class="info">
+        <div class="rp">${esc(w.p)}</div>
+        <div class="rk">${esc(w.k)}</div>
+        <div style="display:flex;align-items:center;gap:8px">${pdotsHTML(w.n)}
+        ${wc[w.n]?`<span style="font-size:11px;color:var(--red);font-weight:700">오답 ×${wc[w.n]}</span>`:""}
+        ${srs[w.n]?`<span class="duetag">${dueLabel(srs[w.n].d)} 재시험</span>`:""}</div>
+      </div>
+      ${isCustom?`<button class="del" onclick="delWord(${w.n})">삭제</button>`:""}
+      <button class="know ${on?"on":""}" onclick="toggleKnown(${w.n})">${on?"알아요 ✓":"알아요"}</button>
+    </div>`;
+  });
+  if(!rows.length) html += `<p class="desc" style="text-align:center;margin-top:30px">검색 결과가 없습니다.</p>`;
+  app.innerHTML = html;
+}
+function toggleKnown(n){
+  if(known.has(n)) known.delete(n);
+  else { known.add(n); delete srs[n]; saveObj("ck_srs", srs); }
+  saveSet("ck_known", known); render();
+}
+function delWord(n){
+  const w = byN[n];
+  if(!confirm(`'${w.h}' 단어를 삭제할까요?`)) return;
+  custom = custom.filter(x => x.n !== n);
+  known.delete(n); delete srs[n]; delete wc[n]; delete pass[n];
+  store.set("ck_custom", JSON.stringify(custom));
+  saveSet("ck_known", known); saveObj("ck_srs", srs); saveObj("ck_wc", wc); saveObj("ck_pass", pass);
+  rebuild(); render();
+}
+
+/* ----- add word ----- */
+function renderAdd(){
+  const d = Math.min(curDay(), LEARN_DAYS);
+  app.innerHTML = `
+  <button class="back" onclick="go('words')">전체 단어</button>
+  <div class="panel">
+    <h2>단어 추가</h2>
+    <p class="desc">선생님 필기에서 나온 단어를 등록하세요. 선택한 Day의 카드·시험·오답 주기에 자동 포함됩니다.</p>
+    <div class="field"><label>한자</label><input id="ah" placeholder="예: 学习" autocomplete="off"></div>
+    <div class="field"><label>병음 (성조 부호 포함 권장)</label><input id="ap" placeholder="예: xuéxí" autocomplete="off" autocapitalize="off"></div>
+    <div class="field"><label>한국어 뜻</label><input id="ak" placeholder="예: 공부하다" autocomplete="off"></div>
+    <div class="field"><label>학습 Day</label>
+      <select id="ad">${Array.from({length:LEARN_DAYS},(_,i)=>`<option value="${i+1}" ${i+1===d?"selected":""}>Day ${i+1}</option>`).join("")}</select>
+    </div>
+    <div class="btnrow">
+      <button class="btn btn-primary" onclick="addWord(false)">추가</button>
+      <button class="btn btn-soft" onclick="addWord(true)">추가하고 계속</button>
+    </div>
+    <p class="desc" id="addmsg" style="margin:12px 0 0;color:var(--green)"></p>
+  </div>`;
+}
+function addWord(keep){
+  const h = document.getElementById("ah").value.trim();
+  const p = document.getElementById("ap").value.trim();
+  const k = document.getElementById("ak").value.trim();
+  const d = +document.getElementById("ad").value;
+  if(!h || !p || !k){ alert("한자, 병음, 뜻을 모두 입력하세요."); return; }
+  if(DATA.some(w => w.h === h && w.p === p)){ alert("이미 같은 단어가 있습니다: " + h); return; }
+  const n = Math.max(1000, ...custom.map(c => c.n)) + 1;
+  custom.push({ n, h, p, k, d });
+  store.set("ck_custom", JSON.stringify(custom));
+  rebuild();
+  if(keep){
+    ["ah","ap","ak"].forEach(id => document.getElementById(id).value = "");
+    document.getElementById("addmsg").textContent = `'${h}' 추가됨 (Day ${d})`;
+    document.getElementById("ah").focus();
+  } else { go("words"); }
+}
+
+/* ----- result ----- */
+function renderResult(){
+  app.innerHTML = `
+  <div class="panel result">
+    <div class="big">${esc(ctx.msg)}</div>
+    <p>${esc(ctx.sub||"")}</p>
+    <div class="btnrow">
+      <button class="btn btn-primary" onclick="go('home')">홈으로</button>
+    </div>
+  </div>`;
+}
+
+/* ----- settings & plan ----- */
+function renderSettings(){
+  app.innerHTML = `
+  <button class="back" onclick="go('home')">홈</button>
+  <div class="panel">
+    <h2>설정</h2>
+    <div class="setrow"><span>시작일</span>
+      <input type="date" value="${start||""}" onchange="start=this.value;store.set('ck_start',start);render()"></div>
+    <div class="setrow"><span>오늘 진도</span><b>Day ${curDay()} / ${TOTAL_DAYS}</b></div>
+    <div class="setrow"><span>추가한 단어</span><b>${custom.length}개</b></div>
+    <div class="setrow"><span>학습 기록 초기화 (추가 단어는 유지)</span>
+      <button class="linkbtn" onclick="resetAll()">초기화</button></div>
+  </div>
+  <div class="panel">
+    <h2>7일 압축 시험 계획</h2>
+    <table class="plantable">
+      <tr><td>~8일</td><td>이미 학습 완료 (진도 그대로 유지)</td></tr>
+      <tr><td>9~13일</td><td>남은 새 단어를 하루 두 배 분량(약 40개)씩 압축 학습. ① 카드 훑기 → ② 시험① 한자→뜻·병음 → ③ 시험② 뜻→한자·병음 → ④ 그날 예정된 오답 시험.</td></tr>
+      <tr><td>14일</td><td>전체 시험①·② + 남은 오답·최다 오답 집중 시험으로 마무리</td></tr>
+    </table>
+    <p class="desc" style="margin:10px 0 0">원래 21일 플랜의 Day 9~18 분량을 Day 9~13으로 압축했습니다. Day 1~8은 그대로입니다.</p>
+  </div>
+  <div class="panel">
+    <h2>오답 반복 주기</h2>
+    <p class="desc" style="margin-bottom:0">
+    시험에서 틀린 단어는 <b>1일 뒤 → 3일 뒤 → 6일 뒤</b> 오답 시험에 자동으로 다시 나오고, 세 번 모두 통과해야 졸업합니다. 도중에 또 틀리면 1일부터 다시 시작합니다.<br><br>
+    원래 1·7·16일 간격이었지만 남은 7일 안에 복습이 모두 끝나도록 1·3·6일로 줄였습니다. 예정일이 마지막 날을 넘으면 마지막 날로 앞당겨지고, 기존에 쌓여 있던 오답 예정일도 모두 이 7일 안으로 당겨집니다. "틀리면 처음 간격부터 다시, 그 세션 안에서는 맞힐 때까지 반복"하는 규칙은 그대로입니다.</p>
+  </div>`;
+}
+function resetAll(){
+  if(!confirm("학습 기록(아는 단어, 시험 통과, 오답, 진도)이 삭제됩니다. 추가한 단어는 유지됩니다. 계속할까요?")) return;
+  ["ck_known","ck_start","ck_pass","ck_srs","ck_wc","ck_t1","ck_t2","ck_card"].forEach(k=>store.del(k));
+  known = new Set(); start = null; pass = {}; srs = {}; wc = {};
+  t1done = new Set(); t2done = new Set(); cdone = new Set();
+  go("home");
+}
+
+render();
+</script>
+</body>
+</html>
